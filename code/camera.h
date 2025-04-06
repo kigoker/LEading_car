@@ -19,9 +19,9 @@
 #define LimitL(L) (L = ((L < 1) ? 1 : L))    //限幅限幅
 #define LimitH(H) (H = ((H > 92) ? 92 : H))  //限幅限幅
 #define Garage_Number 2                      //车库次数
-//extern int Mid_line[60];                   //最开始写的Get_SideLine搜边线函数里面用来存放中线的数组
-//extern int Left_line[60];                  //最开始写的Get_SideLine搜边线函数里面用来存放左边线的数组
-//extern int Right_line[60];                 //最开始写的Get_SideLine搜边线函数里面用来存放右边线的数组
+extern int Mid_line[60];                   //最开始写的Get_SideLine搜边线函数里面用来存放中线的数组
+extern int Left_line[60];                  //最开始写的Get_SideLine搜边线函数里面用来存放左边线的数组
+extern int Right_line[60];                 //最开始写的Get_SideLine搜边线函数里面用来存放右边线的数组
 extern int Out_Garage_Help_Flag;   // 1 :左边出车库   2 :右边出车库
 extern int Out_Garage_Help_enable;   // 1 :出车库   2 :已出车库
 extern int RoadBlock_length;
@@ -37,6 +37,9 @@ extern uint8 RoadBlock_Flag ; //路障位置  1 : 第一段打角  2 : 编码器计数行进路程
 extern uint8 RoadBlock_Thruough_Flag ; //路障通过方式  1 : 左通过  2 : 右通过
 extern uint8 RoadBlock_Thruough_Flag_Record,Bend_Thruough_RoadBlock_Flag,ICM20602_Clear_Flag ;
 extern uint8 Regular_RoadBlock;
+extern uint8 LeftBorder_copy[60];
+extern uint8 RightBorder_copy[60];
+extern uint8 Center_copy[60];
 //每一行的属性
 typedef struct {
     //梯度扫线数据
@@ -97,7 +100,13 @@ extern ImageDealDatatypedef ImageDeal[60];
 extern ImageStatustypedef ImageStatus;
 extern ImageFlagtypedef ImageFlag;
 
+extern uint8 LeftBorder_copy[60];
+extern uint8 RightBorder_copy[60];
+extern uint8 center_copy[60];
+extern uint8 error1_[40];
+extern int8 error_center[40];
 extern float center_line_error;
+extern int zhidaoflag;
 
 void image_process(void);
 void ips200_displayimage032_zoom(void);

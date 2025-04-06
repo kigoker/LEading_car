@@ -117,8 +117,8 @@
 #include "Encoder.h"
 #include "Wireless_transmission.h"
 #include "PID.h"
-#include "image_dealwith.h"
-#include "Control.h"
+//#include "image_dealwith.h"
+//#include "Control.h"
 #include "imu.h"
 #include "camera.h"
 

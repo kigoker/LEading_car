@@ -94,7 +94,7 @@ main-build: E07_09_wifi_spi_mt9v03x_demo.elf secondary-outputs
 E07_09_wifi_spi_mt9v03x_demo.elf: $(OBJS) makefile $(OPTIONAL_TOOL_DEPS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: TASKING Linker'
-	cctc --lsl-file="../Lcf_Tasking_Tricore_Tc.lsl" -Wl-Oc -Wl-OL -Wl-Ot -Wl-Ox -Wl-Oy "D:\4.智能车\twocars\Ganjiang_3\leading_car\LEading_car\libraries\zf_device\zf_device_config.a" -Wl--map-file="E07_09_wifi_spi_mt9v03x_demo.map" -Wl-mc -Wl-mf -Wl-mi -Wl-mk -Wl-ml -Wl-mm -Wl-md -Wl-mr -Wl-mu --no-warnings= -Wl--error-limit=42 --fp-model=3 -lcs_fpu -lfp_fpu -lrt --lsl-core=vtc --exceptions --strict --anachronisms --force-c++ -Ctc26xb -o"E07_09_wifi_spi_mt9v03x_demo.elf" -Wl-o"E07_09_wifi_spi_mt9v03x_demo.hex:IHEX" $(OBJS)
+	cctc --lsl-file="../Lcf_Tasking_Tricore_Tc.lsl" -Wl-Oc -Wl-OL -Wl-Ot -Wl-Ox -Wl-Oy "D:\4.智能车\twocars\Ganjiang_3\Tandem_Racing_Azure_Steed_in_Pursuit\libraries\zf_device\zf_device_config.a" -Wl--map-file="E07_09_wifi_spi_mt9v03x_demo.map" -Wl-mc -Wl-mf -Wl-mi -Wl-mk -Wl-ml -Wl-mm -Wl-md -Wl-mr -Wl-mu --no-warnings= -Wl--error-limit=42 --fp-model=3 -lcs_fpu -lfp_fpu -lrt --lsl-core=vtc --exceptions --strict --anachronisms --force-c++ -Ctc26xb -o"E07_09_wifi_spi_mt9v03x_demo.elf" -Wl-o"E07_09_wifi_spi_mt9v03x_demo.hex:IHEX" $(OBJS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 

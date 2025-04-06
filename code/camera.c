@@ -34,6 +34,7 @@ int left_difference_num;                        //Ê®×Ö×ó±ßÏßÓë±ê×¼ÖĞÏß39×÷²îµÄºÍ
 int right_difference_num;                       //Ê®×ÖÓÒ±ßÏßÓë±ê×¼ÖĞÏß39×÷²îµÄºÍ£¨40-20ĞĞ£©
 uint8 Garage_Location_Flag = 0;                 //ÅĞ¶Ï¿âµÄ´ÎÊı
 float Big_Small_Help_Gradient;               //´óĞ¡Ô²»·µÄ¸¨ÖúÅĞ¶ÏĞ±ÂÊ
+int zhidaoflag;
 static int ytemp = 0;                           //´æ·ÅĞĞµÄÁÙÊ±±äÁ¿
 static int TFSite = 0, left_FTSite = 0,right_FTSite = 0;              //²¹Ïß¼ÆËãĞ±ÂÊµÄÊ±ºòĞèÒªÓÃµÄ´æ·ÅĞĞµÄ±äÁ¿¡£
 static float DetR = 0, DetL = 0;                //´æ·Å²¹ÏßĞ±ÂÊµÄ±äÁ¿
@@ -46,6 +47,13 @@ float Mh = MT9V03X_H;
 float Lh = LCDH;
 float Mw = MT9V03X_W;
 float Lw = LCDW;
+
+
+uint8 LeftBorder_copy[60] = {0};
+uint8 RightBorder_copy[60] = {0};
+uint8 center_copy[60] = {0};
+uint8 error1_[40];
+
 
 uint8 Half_Road_Wide[60] =                      //Ö±µ½ÈüµÀ°ë¿í
 { 2,3,3,4,4,5,5,6,6,7,
@@ -92,13 +100,15 @@ float Straight_Judge(uint8 dir, uint8 start, uint8 end)     //·µ»Ø½á¹ûĞ¡ÓÚ1¼´ÎªÖ
     return S;
 }
 
-void Straight_long_judge(void)     //·µ»Ø½á¹ûĞ¡ÓÚ1¼´ÎªÖ±Ïß
+void Straight_long_judge(void)     //·µ»Ø½á¹ûĞ¡ÓÚ1¼´ÎªÖ±Ïß|| ImageFlag.Out_Road == 1 || ImageFlag.RoadBlock_Flag == 1
 {
-    if( ImageFlag.Bend_Road ||  ImageFlag.Zebra_Flag || ImageFlag.Out_Road == 1 || ImageFlag.RoadBlock_Flag == 1
+    if( ImageFlag.Bend_Road ||  ImageFlag.Zebra_Flag
             || ImageFlag.image_element_rings == 1  || ImageFlag.image_element_rings == 2 ) return;
-    if((Straight_Judge(1,10,50) < 1) && (Straight_Judge(2,10,50) < 1) && ImageStatus.OFFLine < 3 && ImageStatus.Miss_Left_lines < 2 && ImageStatus.Miss_Right_lines < 2)
+//    if((Straight_Judge(1,25,50) < 1) && (Straight_Judge(2,25,50) < 1) && ImageStatus.OFFLine < 15 && ImageStatus.Miss_Left_lines < 15 && ImageStatus.Miss_Right_lines < 15)
+    if((Straight_Judge(1,25,50) < 1) && (Straight_Judge(2,25,50) < 1) && ImageStatus.OFFLine < 20 )
     {
         ImageFlag.straight_long = 1;
+        zhidaoflag=1;
         //Stop=1;
 //        Statu = Straight_long;
     }
@@ -109,9 +119,10 @@ void Straight_long_handle(void)     //·µ»Ø½á¹ûĞ¡ÓÚ1¼´ÎªÖ±Ïß
 
     if(ImageFlag.straight_long)
     {
-        if((Straight_Judge(1,10,50) > 1) || (Straight_Judge(2,10,50) > 1) || (ImageStatus.OFFLine >= 3)||ImageStatus.Miss_Left_lines >= 2||ImageStatus.Miss_Right_lines>=2)
+        if((Straight_Judge(1,20,50) > 1) || (Straight_Judge(2,20,50) > 1) || (ImageStatus.OFFLine >= 20)||ImageStatus.Miss_Left_lines >= 20||ImageStatus.Miss_Right_lines>=20)
         {
             ImageFlag.straight_long = 0;
+            zhidaoflag=0;
         }
     }
 }
@@ -1170,8 +1181,8 @@ void Element_Judgment_Left_Rings()//ÕâÀïÓĞ¸öÈ±Ïİ¾ÍÊÇÍäµÀ½Ó»·µº£¬¿ÉÄÜÕÒ²»µ½ÓÒÏÂ½Ç
 //--------------------------------------------------------------
 void Element_Judgment_Right_Rings()//ÕâÀïÓĞ¸öÈ±Ïİ¾ÍÊÇÍäµÀ½Ó»·µº£¬¿ÉÄÜÕÒ²»µ½ÓÒÏÂ½ÇµÄÍ»±äµã
 {
-    if (   ImageStatus.Miss_Left_lines > 5 || ImageStatus.Miss_Right_lines < 13
-        || ImageStatus.OFFLine > 10 || Straight_Judge(1, 10, 55) > 1 || ImageStatus.WhiteLine > 4
+    if (   ImageStatus.Miss_Left_lines > 5 || ImageStatus.Miss_Right_lines < 15
+        || ImageStatus.OFFLine > 10 || Straight_Judge(1, 20, 55) > 1 || ImageStatus.WhiteLine > 4
         || ImageDeal[52].IsRightFind == 'W'
         || ImageDeal[53].IsRightFind == 'W'
         || ImageDeal[54].IsRightFind == 'W'
@@ -1238,7 +1249,7 @@ void Element_Handle_Left_Rings()
 {
     /***************************************ÅĞ¶Ï**************************************/
     int num = 0;
-    for (int Ysite = 55; Ysite > 30; Ysite--)
+    for (int Ysite = 55; Ysite > 20; Ysite--)
     {
         if(ImageDeal[Ysite].IsLeftFind == 'W')
         {
@@ -1450,7 +1461,7 @@ void Element_Handle_Right_Rings()
 {
     /****************ÅĞ¶Ï*****************/
     int num =0 ;
-    for (int Ysite = 55; Ysite > 30; Ysite--)
+    for (int Ysite = 55; Ysite > 15; Ysite--)
     {
         if(ImageDeal[Ysite].IsRightFind == 'W')
         {
@@ -1461,7 +1472,7 @@ void Element_Handle_Right_Rings()
             break;
     }
     //×¼±¸½ø»·
-    if (ImageFlag.image_element_rings_flag == 1 && num>10)
+    if (ImageFlag.image_element_rings_flag == 1 && num>8)
     {
         ImageFlag.image_element_rings_flag = 2;
     }
@@ -1470,12 +1481,12 @@ void Element_Handle_Right_Rings()
         ImageFlag.image_element_rings_flag = 5;
     }
     //½ø»·
-    if(ImageFlag.image_element_rings_flag == 5 && ImageStatus.Miss_Left_lines>15)
+    if(ImageFlag.image_element_rings_flag == 5 && ImageStatus.Miss_Left_lines>20)
     {
         ImageFlag.image_element_rings_flag = 6;
     }
     //½ø»·Ğ¡Ô²»·
-    if(ImageFlag.image_element_rings_flag == 6 && ImageStatus.Miss_Left_lines<7)
+    if(ImageFlag.image_element_rings_flag == 6 && ImageStatus.Miss_Left_lines<10)
     {
         ImageFlag.image_element_rings_flag = 7;
     }
@@ -1507,8 +1518,8 @@ void Element_Handle_Right_Rings()
     if (ImageFlag.image_element_rings_flag == 8)
     {
          if (   Straight_Judge(1, ImageStatus.OFFLine+15, 45) < 1
-             && ImageStatus.Miss_Left_lines < 8
-             && ImageStatus.OFFLine < 10)    //ÓÒ±ßÎªÖ±ÏßÇÒ½ØÖ¹ĞĞ£¨Ç°Õ°Öµ£©ºÜĞ¡
+             && ImageStatus.Miss_Left_lines < 10
+             && ImageStatus.OFFLine < 15)    //ÓÒ±ßÎªÖ±ÏßÇÒ½ØÖ¹ĞĞ£¨Ç°Õ°Öµ£©ºÜĞ¡
             {ImageFlag.image_element_rings_flag = 9;}
     }
     if(ImageFlag.image_element_rings_flag == 9 )
@@ -1626,7 +1637,7 @@ void Element_Handle_Right_Rings()
     {
         Repair_Point_Xsite = 60;
         Repair_Point_Ysite = 0;
-        for (int Ysite = 40; Ysite > 5; Ysite--)
+        for (int Ysite = 40; Ysite > 13; Ysite--)
         {
             if (Pixle[Ysite][58] == Image_white && Pixle[Ysite-1][58] == 0)
             {
@@ -1688,24 +1699,32 @@ void image_process(void)
         Search_Border_OTSU(Pixle, LCDH, LCDW, LCDH - 2);//58ĞĞÎ»µ×ĞĞ
     else
         ImageStatus.OFFLineBoundary = 5;
-
+    Straight_long_judge();
+    Straight_long_handle();
     Scan_Element();
     Element_Handle();
-    if(ImageFlag.image_element_rings_flag){
-//        buzzer_on();
-    }
-    else
-//        buzzer_off();
+//    if(ImageFlag.image_element_rings_flag){
+////        buzzer_on();
+//    }
+//    else
+////        buzzer_off();
+
+    ips200_displayimage032_zoom();
     center_line_error = weighted_error_exp(error_center, 40);
 }
 
 // Ô¤¼ÆËãºÃµÄÖ¸ÊıÈ¨ÖØ±í£¨k = 0.05£¬¾«¶È¿Éµ÷Õû£©
 const float weight_table[40] = {
-    1.0000f, 0.9512f, 0.9048f, 0.8607f, 0.8187f, 0.7788f, 0.7408f, 0.7047f,
-    0.6703f, 0.6376f, 0.6065f, 0.5769f, 0.5488f, 0.5220f, 0.4966f, 0.4724f,
-    0.4493f, 0.4274f, 0.4066f, 0.3867f, 0.3679f, 0.3499f, 0.3329f, 0.3166f,
-    0.3012f, 0.2865f, 0.2725f, 0.2592f, 0.2466f, 0.2346f, 0.2231f, 0.2122f,
-    0.2019f, 0.1920f, 0.1827f, 0.1738f, 0.1653f, 0.1572f, 0.1496f, 0.1423f
+//    1.0000f, 0.9512f, 0.9048f, 0.8607f, 0.8187f, 0.7788f, 0.7408f, 0.7047f,
+//    0.6703f, 0.6376f, 0.6065f, 0.5769f, 0.5488f, 0.5220f, 0.4966f, 0.4724f,
+//    0.4493f, 0.4274f, 0.4066f, 0.3867f, 0.3679f, 0.3499f, 0.3329f, 0.3166f,
+//    0.3012f, 0.2865f, 0.2725f, 0.2592f, 0.2466f, 0.2346f, 0.2231f, 0.2122f,
+//    0.2019f, 0.1920f, 0.1827f, 0.1738f, 0.1653f, 0.1572f, 0.1496f, 0.1423f
+        1.0000f, 0.9753f, 0.9512f, 0.9276f, 0.9045f, 0.8819f, 0.8597f, 0.8380f,
+        0.8168f, 0.7960f, 0.7756f, 0.7557f, 0.7362f, 0.7171f, 0.6984f, 0.6801f,
+        0.6622f, 0.6447f, 0.6276f, 0.6108f, 0.5944f, 0.5784f, 0.5627f, 0.5474f,
+        0.4493f, 0.4274f, 0.4066f, 0.3867f, 0.3679f, 0.3499f, 0.3329f, 0.3166f,
+        0.2019f, 0.1920f, 0.1827f, 0.1738f, 0.1653f, 0.1572f, 0.1496f, 0.1423f
 };
 
 // ¼ÆËã¼ÓÈ¨Îó²î£¨²é±í·½Ê½£©
@@ -1713,7 +1732,7 @@ float weighted_error_exp(int8 *error_center, uint8 cnt) {
     float weighted_sum = 0.0f;
     float weight_total = 0.0f;
     for(uint8 i = 59; i > 59 - cnt; i--){
-        error_center[59 - i] = ImageDeal[i].Center - ImageSensorMid;
+        error_center[59-i] = ImageDeal[i].Center - ImageSensorMid;
     }
     for (uint8 i = 0; i < cnt; i++) {
         weighted_sum += weight_table[i] * (float)error_center[i];
@@ -1725,9 +1744,17 @@ float weighted_error_exp(int8 *error_center, uint8 cnt) {
 //ÏÔÊ¾Í¼Ïñ   ¸Ä³ÉÄã×Ô¼ºµÄ¾ÍĞĞ µÈºóÆÚ×ã¹»×ÔĞÅÁË£¬ÏÔÊ¾¹Øµô£¬ÏÔÊ¾ÆÁÍ¦Õ¼×ÊÔ´µÄ
 void ips200_displayimage032_zoom(void)
 {
+//    ips200_show_binary_image(0, 0, image_copy[0], LCDW, LCDH, LCDW, LCDH);
+    ips200_show_gray_image(0, 0, image_copy[0], LCDW, LCDH, LCDW, LCDH, 0);
     for (uint16 i = 59; i > ImageStatus.OFFLine; i--)
+
     {
+        LeftBorder_copy[i] = (uint8)ImageDeal[i].LeftBorder;
+        RightBorder_copy[i] = (uint8)ImageDeal[i].RightBorder;
+        center_copy[i] = (uint8)ImageDeal[i].Center;
+
         ips200_draw_point((uint16)ImageDeal[i].RightBorder, i, RGB565_RED);//ÏÔÊ¾Æğµã ÏÔÊ¾ÖĞÏß
+
         ips200_draw_point((uint16)ImageDeal[i].Center, i, RGB565_BLUE);//ÏÔÊ¾Æğµã ÏÔÊ¾×ó±ßÏß
         ips200_draw_point((uint16)ImageDeal[i].LeftBorder, i, RGB565_RED);//ÏÔÊ¾Æğµã ÏÔÊ¾ÓÒ±ßÏß
     }

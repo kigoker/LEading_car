@@ -46,10 +46,10 @@ void Motor_Init(void)
 //    imu.KD_1 = 14;
 ////     imu.KP_2 = 0.1;
 //    imu.GKD = -0.8;
-                       imu.KP_1 = 18;
+                       imu.KP_1 = 17;
                        imu.KD_1 = 0;
                    //     imu.KP_2 = 0.1;
-                       imu.GKD = -2.4;
+                       imu.GKD = -2.7;
 //                           imu.KP_1 = 28;
 //                           imu.KD_1 = 0;
 //                       //     imu.KP_2 = 0.1;

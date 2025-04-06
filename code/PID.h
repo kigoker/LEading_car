@@ -12,7 +12,9 @@
 
 //#define SPEED_MAX   3000  //电机速度限幅，正
 //#define SPEED_MIN  -3000  //电机速度限幅，负
-
+#define MAX_SPEED 1700
+#define MIN_SPEED 1100
+#define MAX_DEVIATION 8
 
 typedef struct
 {
@@ -52,11 +54,14 @@ extern int setspeed1;
 extern int basespeed;
 extern int setspeed2;
 extern float divertion;
+extern float err_road;
 extern float qulv;
 extern float Error;
 extern PID_imu_Datatypedef imu;
 extern PID_Datatypedef sptr1,sptr2;
 extern PID_Angeltypedef angel;
+extern double steer;
+extern double steer1 ;
 //extern float P_L;
 //extern float I_L;
 //extern float P_R;
@@ -71,7 +76,7 @@ float imuPID_Output(float erspeed,PID_imu_Datatypedef*imu);
 //int PID_L(int set_speed ,float speed);
 //int PID_R(int set_speed ,float speed);
 
-
+void Control_car(void);
 
 
 #endif /* CODE_PID_H_ */

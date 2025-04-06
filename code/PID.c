@@ -17,7 +17,9 @@ float divertion;
 float erspeed=0;
 
 float gyro_filtered = 0; // 滤波后的陀螺仪值
-
+float ratio=0;
+double steer =0 ;
+double steer1 =0 ;
 PID_Datatypedef sptr1,sptr2;
 PID_imu_Datatypedef imu;
 PID_Angeltypedef angel;
@@ -61,8 +63,8 @@ float imuPID_Output(float erspeed,PID_imu_Datatypedef*imu)
 //    imu->lasterror=erspeed;
     imu_out = (erspeed * imu->KP_1) + (erspeed * fabsf(erspeed) * imu->KP_2) + (erspeed - imu->lasterror) * imu->KD_1 + imu660ra_gyro_x * imu->GKD;
     imu->lasterror = erspeed; // 更新上一次误差
-    if (imu_out > 2500) imu_out =2500;
-    else if (imu_out < -2500) imu_out = -2500;
+    if (imu_out > 2300) imu_out =2300;
+    else if (imu_out < -2300) imu_out = -2300;
     return imu_out;
 
 }
@@ -79,6 +81,55 @@ float imuPID_Output(float erspeed,PID_imu_Datatypedef*imu)
 //    return t;
 //
 //}
+void Control_car(void)
+{
+    steer = center_line_error;
+    steer1 = fabsf(center_line_error);
+    if(zhidaoflag)
+    {  if (0.1>steer1)
+          steer1=15*steer1;
+       else if (0.5>steer1)
+       steer1=3*steer1;
+       else if (1>steer1)
+       steer1=4*steer1;
+       else
+           steer1=1.5*steer1;}
+    else if(!zhidaoflag)
+    { if (0.1>steer1)
+           steer1=35*steer1;
+        else if (0.5>steer1)
+        steer1=5*steer1;
+        else if (1>steer1)
+        steer1=8*steer1;
+        else
+            steer1=2.5*steer1;}
+    if(8<steer1)
+        steer1=8;
+       ratio = steer1 / MAX_DEVIATION;  // 计算比例（0.0~1.0）
+          setspeed1=MAX_SPEED - (MAX_SPEED - MIN_SPEED) * ratio;
+          setspeed2=MAX_SPEED - (MAX_SPEED - MIN_SPEED) * ratio;
+
+     if(setspeed1>=(MAX_SPEED+MIN_SPEED)*0.5)
+     {  imu.KP_1 = 18;
+         imu.KD_1 = 0;
+     //     imu.KP_2 = 0.1;
+         imu.GKD = -2.7;}
+     else if(setspeed1<(MAX_SPEED+MIN_SPEED)*0.5)
+     { imu.KP_1 = 15;
+             imu.KD_1 = 0;
+         //     imu.KP_2 = 0.1;
+             imu.GKD = -2.5;}
+             if((steer>=-10&steer<=-3)||(steer<=10&&steer>=3))
+                       erspeed=70*steer;//7.3
+             else if ((steer > 1 && steer < 3) || (steer > -3 && steer < -1))
+                        erspeed=60*steer;
+          //              else
+             else if(steer<1||steer>-1)
+                        erspeed=40*steer;
+
+                        else
+                            erspeed=65*steer;
+}
 void PID_output(void)
 {
 

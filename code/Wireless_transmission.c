@@ -9,7 +9,7 @@
 void Send_information_VOFA(void)
 {
 //    printf("%d,%d\n",speed1,speed2);
-//    printf("%d,%d,%d,%d,%f,%f,%d,%f,%f\n",speed1*5,speed2*5,Increase1,Increase2,erspeed,divertion,imu660ra_gyro_x,curvature, steer1);
+    printf("%d,%d,%d,%d,%f,%f,%d,%f,%d\n",speed1*5,speed2*5,Increase1,Increase2,erspeed,divertion,imu660ra_gyro_x,steer1,zhidaoflag);
 //    printf("%d,%d,%d\n",imu660ra_gyro_x,imu660ra_gyro_y,imu660ra_gyro_z);
 //    printf("Type: %d, Curvature: %f,%d,%d,%d,%d,%f,%f\n", current_road_type,curve.curvature,speed1,speed2,Increase1,Increase2,steer,divertion);
 //    printf("Round State: %d\n", round_state);

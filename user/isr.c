@@ -61,7 +61,7 @@ IFX_INTERRUPT(cc60_pit_ch1_isr, 0, CCU6_0_CH1_ISR_PRIORITY)
 //    Speed_Right_Real = (float)encoder_get_count(TIM6_ENCODER)/122;
     //不换算成m/s
     Encoder_Read();
-//    Control_car();
+    Control_car();
 //    PID_select();
     PID_output();
 //    get_gyro();
@@ -77,7 +77,7 @@ IFX_INTERRUPT(cc60_pit_ch1_isr, 0, CCU6_0_CH1_ISR_PRIORITY)
 //    }
 //    else//其他情况不积分
 //    {
-        Clear_Gyroscope_Angle();
+
 //    }
 //    Motor_Left(1000);
 //    Motor_Right(1000);
