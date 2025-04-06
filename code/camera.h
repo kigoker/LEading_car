@@ -19,9 +19,9 @@
 #define LimitL(L) (L = ((L < 1) ? 1 : L))    //限幅限幅
 #define LimitH(H) (H = ((H > 92) ? 92 : H))  //限幅限幅
 #define Garage_Number 2                      //车库次数
-extern int Mid_line[60];                   //最开始写的Get_SideLine搜边线函数里面用来存放中线的数组
-extern int Left_line[60];                  //最开始写的Get_SideLine搜边线函数里面用来存放左边线的数组
-extern int Right_line[60];                 //最开始写的Get_SideLine搜边线函数里面用来存放右边线的数组
+//extern int Mid_line[60];                   //最开始写的Get_SideLine搜边线函数里面用来存放中线的数组
+//extern int Left_line[60];                  //最开始写的Get_SideLine搜边线函数里面用来存放左边线的数组
+//extern int Right_line[60];                 //最开始写的Get_SideLine搜边线函数里面用来存放右边线的数组
 extern int Out_Garage_Help_Flag;   // 1 :左边出车库   2 :右边出车库
 extern int Out_Garage_Help_enable;   // 1 :出车库   2 :已出车库
 extern int RoadBlock_length;
