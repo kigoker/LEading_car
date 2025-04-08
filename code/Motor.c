@@ -142,6 +142,9 @@ void Motor_Right(int pwm_R)
 -------------------------------------------------------------------------------------------------------------------*/
 void wu_shua(void)
 {
+
+    pwm_init(ATOM0_CH2_P21_4, 50, 0);
+    pwm_init(ATOM1_CH3_P21_5, 50, 0);
     pwm_set_duty(ATOM0_CH2_P21_4,1000);
     pwm_set_duty(ATOM1_CH3_P21_5,1000);
 

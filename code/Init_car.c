@@ -54,7 +54,8 @@ void GANJIANG_Init(void)
    Read_Flash();//读取内部flash中的数据
    //ADC_init 初始化A11引脚
    adc_init(ADC0_CH11_A11, ADC_12BIT);
-
+   //无刷Init
+   wu_shua();
    //定时器初始化
    //定时器 0
    //pit_ms_init(CCU60_CH0, 5);

@@ -22,5 +22,6 @@ void Motor_Init(void);
 void Motor_Left(int pwm_L);
 void Motor_Right(int pwm_R);
 
+void wu_shua(void);
 
 #endif /* CODE_MOTOR_H_ */
