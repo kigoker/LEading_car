@@ -1731,10 +1731,15 @@ const float weight_table[40] = {
 float weighted_error_exp(int8 *error_center, uint8 cnt) {
     float weighted_sum = 0.0f;
     float weight_total = 0.0f;
-    for(uint8 i = 59; i > 59 - cnt; i--){
-        error_center[59-i] = ImageDeal[i].Center - ImageSensorMid;
-    }
+//里最后一行为0
+//    for(uint8 i = 59; i > 59 - cnt; i--){
+//        error_center[59-i] = ImageDeal[i].Center - ImageSensorMid;
+//    }
+    for(uint8 i = 49; i > 49 - cnt; i--){
+            error_center[49-i] = ImageDeal[i].Center - ImageSensorMid;
+        }
     for (uint8 i = 0; i < cnt; i++) {
+
         weighted_sum += weight_table[i] * (float)error_center[i];
         weight_total += weight_table[i];
     }

@@ -58,7 +58,7 @@ void GANJIANG_Init(void)
    wu_shua();
    //定时器初始化
    //定时器 0
-   //pit_ms_init(CCU60_CH0, 5);
+   pit_ms_init(CCU60_CH0, 50);
 
    //定时器 1  编码器Count清零
    pit_ms_init(CCU60_CH1, 10);
@@ -82,6 +82,8 @@ void GANJIANG_Flyer(void)
 //    ips200_displayimage03x(mt9v03x_image[0], MT9V03X_W, MT9V03X_H);
     //Wireless_uart_readAndsent();
     UI_init();
+    BLE_get_data();
+    BLE_PID_Adjust();
 }
 
 

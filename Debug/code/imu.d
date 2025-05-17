@@ -280,6 +280,8 @@ code/imu.o :	d:/ADS_DESKWorks/Leading_Car/LEading_car/libraries/zf_device/zf_dev
 d:/ADS_DESKWorks/Leading_Car/LEading_car/libraries/zf_device/zf_device_icm20602.h :
 code/imu.o :	d:/ADS_DESKWorks/Leading_Car/LEading_car/libraries/zf_device/zf_device_imu660ra.h
 d:/ADS_DESKWorks/Leading_Car/LEading_car/libraries/zf_device/zf_device_imu660ra.h :
+code/imu.o :	d:/ADS_DESKWorks/Leading_Car/LEading_car/libraries/zf_device/zf_device_imu660rb.h
+d:/ADS_DESKWorks/Leading_Car/LEading_car/libraries/zf_device/zf_device_imu660rb.h :
 code/imu.o :	d:/ADS_DESKWorks/Leading_Car/LEading_car/libraries/zf_device/zf_device_imu963ra.h
 d:/ADS_DESKWorks/Leading_Car/LEading_car/libraries/zf_device/zf_device_imu963ra.h :
 code/imu.o :	d:/ADS_DESKWorks/Leading_Car/LEading_car/libraries/zf_device/zf_device_ips114.h

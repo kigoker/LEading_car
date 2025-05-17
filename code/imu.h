@@ -19,6 +19,9 @@
 extern volatile float FJ_Pitch;//Æ«º½½Ç
 extern volatile float FJ_Angle;//¸©Ñö½Ç
 
+extern int16 gyro_x_act, gyro_y_act,gyro_z_act;
+extern int16 acc_x_act,acc_y_act,acc_z_act;
+
 void Gyroscope_Init(void);
 void Gyroscope_GetData(void);
 void Zero_Point_Detect(void);

@@ -40,11 +40,27 @@ void UI_Choose()   //选择一二级界面
                 Car_GO_Flag = 1 ;
                 ips200_show_string(Show_startLine,30,"Car GO ");
             }
+            if(key2_flag == 0 && UI_choose_flag == 2)
+                        {
+                            Car_GO_Flag = 0 ;
+                            ips200_show_string(Show_startLine,30,"Car STOP ");
+                        }
         }
         else if(Cursor_Postion == 1)  //显示图像
         {
             ips200_show_gray_image(Show_startLine, 0, image_copy[0], LCDW, LCDH, LCDW, LCDH, 0);
+            for (uint16 i = 59; i > ImageStatus.OFFLine; i--)
+
+                {
+
+
+                    ips200_draw_point((uint16)ImageDeal[i].RightBorder+Show_startLine, i, RGB565_RED);//显示起点 显示中线
+
+                    ips200_draw_point((uint16)ImageDeal[i].Center+Show_startLine, i, RGB565_BLUE);//显示起点 显示左边线
+                    ips200_draw_point((uint16)ImageDeal[i].LeftBorder+Show_startLine, i, RGB565_RED);//显示起点 显示右边线
+                }
             ips200_show_gray_image(Show_startLine, 70, mt9v03x_image[0], MT9V03X_W, MT9V03X_H, MT9V03X_W, MT9V03X_H, 0);
+
         }
         else if(Cursor_Postion == 2)  //调整增量式PID
         {

@@ -14,7 +14,7 @@
 //#define SPEED_MIN  -3000  //电机速度限幅，负
 #define MAX_SPEED 1700
 #define MIN_SPEED 1100
-#define MAX_DEVIATION 8
+#define MAX_DEVIATION 10
 
 typedef struct
 {
@@ -62,6 +62,9 @@ extern PID_Datatypedef sptr1,sptr2;
 extern PID_Angeltypedef angel;
 extern double steer;
 extern double steer1 ;
+
+extern int test_Speed;
+
 //extern float P_L;
 //extern float I_L;
 //extern float P_R;
@@ -70,6 +73,7 @@ extern double steer1 ;
 void PID_Init(PID_Datatypedef*sptr);
 void PID_output(void);
 //void PID_select(void);
+void Velocity_Control(int set_speed,int speed_left_real,int speed_right_real);
 float imuPID_Output(float erspeed,PID_imu_Datatypedef*imu);
 int MotorPID_Output(PID_Datatypedef*sptr,float NowSpeed,int ExpectSpeed);
 float imuPID_Output(float erspeed,PID_imu_Datatypedef*imu);

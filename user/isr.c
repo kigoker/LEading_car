@@ -47,6 +47,7 @@ IFX_INTERRUPT(cc60_pit_ch0_isr, 0, CCU6_0_CH0_ISR_PRIORITY)
 
     //printf("ADC channel %d convert data is %d.\r\n",adc_convert(ADC0_CH11_A11));
 //    printf("ADC channel  convert data is %d.\r\n",adc_mean_filter_convert(ADC0_CH11_A11,10));
+    //不换算成m/s
 
 }
 
@@ -59,12 +60,13 @@ IFX_INTERRUPT(cc60_pit_ch1_isr, 0, CCU6_0_CH1_ISR_PRIORITY)
     //换算成m/s
 //    Speed_Left_Real  = -(float)encoder_get_count(TIM2_ENCODER)/122;
 //    Speed_Right_Real = (float)encoder_get_count(TIM6_ENCODER)/122;
-    //不换算成m/s
-    Encoder_Read();
+
     Control_car();
-//    PID_select();
-    PID_output();
+////    PID_select();
+//    PID_output();
 //    get_gyro();
+    Encoder_Read();
+    Velocity_Control(setspeed1,speed1*3,speed2*3);//读取转速，闭环控制  左轮目标，右轮目标，左轮实际，右轮实际
     Gyroscope_GetData();
     Get_Gyroscope_Pitch(); //俯仰角实时判断
 //    if(Island_State!=0)//进环岛就积分

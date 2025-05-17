@@ -4,6 +4,10 @@ int ZeroDrift_gyro_y=0;
 int ZeroDrift_gyro_z=0;
 
 int16 FJ_gyro_z = 0,FJ_gyro_y = 0;
+int16 gyro_x_act = 0 , gyro_y_act = 0,gyro_z_act = 0;
+int16 acc_x_act = 0 ,acc_y_act = 0,acc_z_act = 0;
+
+
 volatile float FJ_Angle = 0;//最后引出的变量
 volatile float FJ_Pitch = 0;//最后引出的变量
 volatile float FJ_PitchSpeed = 0,FJ_LastPitchSpeed = 0;
@@ -19,9 +23,12 @@ void Zero_Point_Detect(void)
     int zero_point_z_accu=0;
     for(i=0;i<=100;i++)//积累100次，求取平均值，获取当前零飘
     {
-        imu660ra_get_gyro();
-        zero_point_y_accu+=imu660ra_gyro_y;//
-        zero_point_z_accu+=imu660ra_gyro_z;
+//        imu660ra_get_gyro();
+        imu660rb_get_gyro();
+//        zero_point_y_accu+=imu660ra_gyro_y;//
+//        zero_point_z_accu+=imu660ra_gyro_z;
+        zero_point_y_accu+=imu660rb_gyro_y;//
+        zero_point_z_accu+=imu660rb_gyro_z;
         system_delay_ms(3);//记得换成本系统的delay
     }
     ZeroDrift_gyro_y=zero_point_y_accu/100.0;
@@ -31,7 +38,16 @@ void Zero_Point_Detect(void)
 void Gyroscope_GetData(void)
 {
     int16 gyro_z =0;
+//    imu660ra_get_gyro();
     imu660ra_get_gyro();
+    imu660ra_get_acc();
+    gyro_x_act = imu660rb_gyro_transition(imu660rb_gyro_x);
+    gyro_y_act = imu660rb_gyro_transition(imu660rb_gyro_y);
+    gyro_z_act = imu660rb_gyro_transition(imu660rb_gyro_z);
+    acc_x_act = imu660rb_acc_transition(acc_x_act);
+    acc_y_act = imu660rb_acc_transition(acc_y_act);
+    acc_z_act = imu660rb_acc_transition(acc_z_act);
+//    gyro_z=imu660ra_gyro_z;
     gyro_z=imu660ra_gyro_z;
     AngleSpeed = ((gyro_z-ZeroDrift_gyro_z) * GYRO_SENS)*DT;
 }
@@ -61,7 +77,7 @@ void Get_Gyroscope_Pitch(void)
 {
     float K=0.7;
     FJ_LastPitchSpeed=FJ_PitchSpeed;
-    FJ_gyro_y = imu660ra_gyro_y;
+    FJ_gyro_y = imu660rb_gyro_y;
     FJ_PitchSpeed += ((FJ_gyro_y-ZeroDrift_gyro_y) * GYRO_SENS)*DT;
     FJ_Pitch = FJ_PitchSpeed*K+FJ_LastPitchSpeed*(1-K);
 

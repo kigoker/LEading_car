@@ -17,8 +17,8 @@ extern int *Set_left;
 extern int *Set_Right;
 
 //电机限幅
-#define SPEED_MAX   10000  //电机速度限幅，正
-#define SPEED_MIN  -10000  //电机速度限幅，负
+#define SPEED_MAX   3000  //电机速度限幅，正
+#define SPEED_MIN  -3000  //电机速度限幅，负
 
 //WIFI_SPI 参数设置
 #define WIFI_SPI_OPEN 1  //0关闭WIFI_SPI 1开启
